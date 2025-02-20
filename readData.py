@@ -51,7 +51,7 @@ while True:
     
     # Graphs
     st.markdown("### Live Sensor Data Trends")
-    fig = px.line(st.session_state.data, x="Time", y=["Voltage", "Current", "Temperature", "Vibration"], title="Sensor Data Over Time")
+    fig = px.line(st.session_state.data.tail(50), x="Time", y=["Voltage", "Current", "Temperature", "Vibration"], title="Sensor Data Over Time")
     st.plotly_chart(fig, use_container_width=True)
     
-    time.sleep(2)  # Refresh every 2 seconds
+    time.sleep(5)  # Refresh every 5 seconds
