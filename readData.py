@@ -64,4 +64,4 @@ if st.button("Show Graph"):
 
 # Auto-refresh every 5 seconds
 time.sleep(5)
-st.experimental_rerun()
+st.rerun()
