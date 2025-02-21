@@ -25,8 +25,9 @@ def fetch_data():
 st.title("🏭 Industry Protection Monitoring Dashboard")
 st.markdown("### Real-Time Sensor Data from MySQL")
 
+# Placeholder containers for dynamic updates
 placeholder = st.empty()
-graph_placeholder = st.empty()
+graph_placeholder = st.empty()  # Create a graph container before the loop
 
 # Define alert thresholds
 VOLTAGE_RANGE = (220, 240)
@@ -51,10 +52,9 @@ while True:
             col3.metric("Temperature (°C)", f"{latest_data['Temp']}", "🔥" if float(latest_data['Temp']) > TEMP_LIMIT else "✅")
             col4.metric("Vibration (m/s²)", f"{latest_data['Vibration']}", "🔴" if float(latest_data['Vibration']) > VIBRATION_LIMIT else "✅")
 
-        # Update same graph with last 50 entries
-        with graph_placeholder.container():
-            fig = px.line(df.sort_values("dateTime"), x="dateTime", y=["Voltage", "Current", "Temp", "Vibration"], 
-                          title="Last 50 Sensor Data Entries")
-            st.plotly_chart(fig, use_container_width=True)
+        # Update same graph without re-creating it
+        fig = px.line(df.sort_values("dateTime"), x="dateTime", y=["Voltage", "Current", "Temp", "Vibration"], 
+                      title="Last 50 Sensor Data Entries")
+        graph_placeholder.plotly_chart(fig, use_container_width=True)  # Use the same placeholder
 
     time.sleep(5)  # Refresh every 5 seconds
