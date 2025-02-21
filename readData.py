@@ -33,26 +33,26 @@ CURRENT_RANGE = (8, 18)
 TEMP_LIMIT = 70
 VIBRATION_LIMIT = 3.5
 
-while True:
-    # Fetch data from MySQL
-    df = fetch_data()
+#while True:
+# Fetch data from MySQL
+df = fetch_data()
 
-    if not df.empty:
-        df["dateTime"] = pd.to_datetime(df["dateTime"])  # Ensure correct datetime format
-        
-        # Display real-time values
-        latest_data = df.iloc[0]
-        
-        with placeholder.container():
-            col1, col2, col3, col4 = st.columns(4)
-            col1.metric("Voltage (V)", f"{latest_data['Voltage']}", "⚡" if not VOLTAGE_RANGE[0] <= float(latest_data['Voltage']) <= VOLTAGE_RANGE[1] else "✅")
-            col2.metric("Current (A)", f"{latest_data['Current']}", "⚠️" if not CURRENT_RANGE[0] <= float(latest_data['Current']) <= CURRENT_RANGE[1] else "✅")
-            col3.metric("Temperature (°C)", f"{latest_data['Temp']}", "🔥" if float(latest_data['Temp']) > TEMP_LIMIT else "✅")
-            col4.metric("Vibration (m/s²)", f"{latest_data['Vibration']}", "🔴" if float(latest_data['Vibration']) > VIBRATION_LIMIT else "✅")
+if not df.empty:
+    df["dateTime"] = pd.to_datetime(df["dateTime"])  # Ensure correct datetime format
+    
+    # Display real-time values
+    latest_data = df.iloc[0]
+    
+    with placeholder.container():
+        col1, col2, col3, col4 = st.columns(4)
+        col1.metric("Voltage (V)", f"{latest_data['Voltage']}", "⚡" if not VOLTAGE_RANGE[0] <= float(latest_data['Voltage']) <= VOLTAGE_RANGE[1] else "✅")
+        col2.metric("Current (A)", f"{latest_data['Current']}", "⚠️" if not CURRENT_RANGE[0] <= float(latest_data['Current']) <= CURRENT_RANGE[1] else "✅")
+        col3.metric("Temperature (°C)", f"{latest_data['Temp']}", "🔥" if float(latest_data['Temp']) > TEMP_LIMIT else "✅")
+        col4.metric("Vibration (m/s²)", f"{latest_data['Vibration']}", "🔴" if float(latest_data['Vibration']) > VIBRATION_LIMIT else "✅")
 
-        # Graphs
-        st.markdown("### Live Sensor Data Trends")
-        fig = px.line(df, x="dateTime", y=["Voltage", "Current", "Temp", "Vibration"], title="Sensor Data Over Time")
-        st.plotly_chart(fig, use_container_width=True)
+    # Graphs
+    st.markdown("### Live Sensor Data Trends")
+    fig = px.line(df, x="dateTime", y=["Voltage", "Current", "Temp", "Vibration"], title="Sensor Data Over Time")
+    st.plotly_chart(fig, use_container_width=True)
 
-    time.sleep(5)  # Refresh every 5 seconds
+time.sleep(5)  # Refresh every 5 seconds
