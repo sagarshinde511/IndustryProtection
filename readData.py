@@ -40,11 +40,12 @@ VOLTAGE_RANGE = (220, 240)
 CURRENT_RANGE = (8, 18)
 TEMP_LIMIT = 70
 VIBRATION_LIMIT = 3.5
+df = fetch_data()
 plotGraph()
 while True:
     # Fetch data from MySQL
     df = fetch_data()
-
+    
     if not df.empty:
         df["dateTime"] = pd.to_datetime(df["dateTime"])  # Convert to datetime
 
